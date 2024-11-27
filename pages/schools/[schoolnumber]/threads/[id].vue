@@ -99,52 +99,80 @@ const handleVote = async (id: string, type: "question" | "answer", voteType: "up
     if (isVoting.value || !conversation.value) return;
     isVoting.value = true;
 
-    if(voteType === 'up' || voteType === 'down') {
-        const target = type === 'question' ? conversation.value.question : conversation.value.answers.find(a => a.aIdentifier === id);
-        if (!target) return;
-        if (voteType === 'up') {
-            target.upVotesCount = target.hasUpvoted ? target.upVotesCount - 1 : target.upVotesCount + 1;
-            target.hasUpvoted = !target.hasUpvoted;
-        } else {
-            target.downVotesCount = target.hasDownvoted ? target.downVotesCount - 1 : target.downVotesCount + 1;
-            target.hasDownvoted = !target.hasDownvoted;
-        }
-    }
+    let fallback;
 
-    //Dont do this with set answer because it will trigger a re-render
+    if (voteType === 'up' || voteType === 'down') {
+        optimisticDownOrUpVote(id, type, voteType);
+    } else if (voteType === 'answer') {
+       fallback =  optimisticMarkAsAnswer(id);
+    }
 
     try {
         const res = await questionComp.voteConversation(id, type, voteType);
 
-        if(!res) return;
+        if (!res) {
+            //Revert optimistic update
 
-        // Revert changes
-        if(voteType === 'up' || voteType === 'down') {
-            const target = type === 'question' ? conversation.value.question : conversation.value.answers.find(a => a.aIdentifier === id);
-            if (!target) return;
-            if (voteType === 'up') {
-                target.upVotesCount = target.hasUpvoted ? target.upVotesCount - 1 : target.upVotesCount + 1;
-                target.hasUpvoted = !target.hasUpvoted;
-            } else {
-                target.downVotesCount = target.hasDownvoted ? target.downVotesCount - 1 : target.downVotesCount + 1;
-                target.hasDownvoted = !target.hasDownvoted;
+            if (voteType === 'up' || voteType === 'down') {
+                //To revert the optimistic update, just toggle the vote again
+                optimisticDownOrUpVote(id, type, voteType);
+            } else if (voteType === 'answer') {
+                //Can be undefined if no fallback is provided because the answer was not found or no answer was marked as answer before
+                if(!fallback) return;
+                optimisticMarkAsAnswer(fallback);
             }
+
+            return;
         }
+    } finally {
+        isVoting.value = false;
+    }
+};
 
-        if(voteType === 'answer') {
-            const target = conversation.value.answers.find(a => a.aIdentifier === id);
-            if (!target) return;
-            target.markedAsAnswer = !target.markedAsAnswer;
+const optimisticMarkAsAnswer = (id: string) => {
+    if (isVoting.value || !conversation.value) return;
 
-            //Toggle other answers
-            conversation.value.answers.forEach(a => {
-                if(a.aIdentifier !== id) {
-                    a.markedAsAnswer = false;
-                }
-            });
+    //Mark answer as answered
+    for (let answer of conversation.value?.answers) {
+        if (answer.aIdentifier === id) {
+            answer.markedAsAnswer = true;
+        } else {
+            answer.markedAsAnswer = false;
+        }
+    }
 
-            //Set questions answerId
-            conversation.value.question.answerId = target.markedAsAnswer ? id : undefined;
+    let lastAnswerId = conversation.value.question.answerId;
+
+    //Mark question as answered
+    conversation.value.question.answerId = id;
+
+    //Return in case the changes are reverted
+    return lastAnswerId;
+};
+
+const optimisticDownOrUpVote = (id: string, type: "question" | "answer", voteType: "up" | "down") => {
+    if (isVoting.value || !conversation.value) return;
+
+    try {
+        const conversationElement = type === 'question' ? conversation.value.question : conversation.value.answers.find((a) => a.aIdentifier === id);
+
+        if (!conversationElement) return;
+
+        const hasDownVoted = conversationElement.hasDownvoted;
+        const hasUpVoted = conversationElement.hasUpvoted;
+
+        if (voteType === 'up') {
+            //Toggle upvote
+            conversationElement.hasUpvoted = !hasUpVoted;
+            conversationElement.hasDownvoted = false;
+            conversationElement.downVotesCount = hasDownVoted ? conversationElement.downVotesCount - 1 : conversationElement.downVotesCount;
+            conversationElement.upVotesCount = hasUpVoted ? conversationElement.upVotesCount - 1 : conversationElement.upVotesCount;
+        } else {
+            //Toggle downvote
+            conversationElement.hasDownvoted = !hasDownVoted;
+            conversationElement.hasUpvoted = false;
+            conversationElement.upVotesCount = hasUpVoted ? conversationElement.upVotesCount - 1 : conversationElement.upVotesCount;
+            conversationElement.downVotesCount = hasDownVoted ? conversationElement.downVotesCount - 1 : conversationElement.downVotesCount;
         }
     } finally {
         isVoting.value = false;

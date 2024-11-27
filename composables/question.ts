@@ -1,4 +1,6 @@
-import type { CreateQuestionDto, QuestionAnswerEndriched } from "~/types/questions";
+import type {
+  CreateQuestionDto,
+} from "~/types/questions";
 
 const useQuestion = () => {
   const schoolId = useCurrentSchool();
@@ -35,8 +37,8 @@ const useQuestion = () => {
 
   const voteConversation = async (
     id: string,
-    type: "question" | "answer" | "report" | "answer",
-    voteType: "up" | "down" | "none"
+    type: "question" | "answer",
+    voteType: "up" | "down" | "none" | "report" | "answer"
   ) => {
     try {
       const response = await $fetch(`/api/v1/questions/votes/vote`, {
@@ -51,7 +53,6 @@ const useQuestion = () => {
   };
 
   const createAnswer = async (qIdentifier: string, content: string) => {
-    const loading = ref(true);
     try {
       const response = await $fetch(`/api/v1/questions/answers/create`, {
         method: "POST",
@@ -62,9 +63,7 @@ const useQuestion = () => {
         }),
       });
       return response;
-    } finally {
-      loading.value = false;
-    }
+    } 
   };
 
   return {

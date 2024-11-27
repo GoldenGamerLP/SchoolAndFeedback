@@ -1,6 +1,28 @@
-# Nuxt Minimal Starter
+# School and Feedback System
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A modern web application built with Nuxt.js that provides a platform for managing school-related feedback and interactions.
+
+## Features
+
+- 🎨 Modern UI with Tailwind CSS and shadcn components
+- 🌙 Dark/Light mode support
+- 🔒 Authentication system
+- 📱 Responsive design
+- 🎯 Performance optimized
+- 🔍 SEO friendly with sitemap generation
+
+## Prerequisites
+
+- Node.js (v16 or higher)
+- npm, pnpm, yarn, or bun package manager
+
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+## Getting Started
+
+1. Clone the repository:
 
 ## Setup
 
