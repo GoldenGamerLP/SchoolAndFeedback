@@ -1,6 +1,4 @@
-import type {
-  CreateQuestionDto,
-} from "~/types/questions";
+import type {CreateQuestionDto,} from "~/types/questions";
 
 const useQuestion = () => {
   const schoolId = useCurrentSchool();
@@ -37,24 +35,24 @@ const useQuestion = () => {
 
   const voteConversation = async (
     id: string,
-    type: "question" | "answer",
-    voteType: "up" | "down" | "none" | "report" | "answer"
+    type: "question" | "answer" | "report",
+    voteType: "up" | "down" | "none",
   ) => {
     try {
-      const response = await $fetch(`/api/v1/questions/votes/vote`, {
+      return await $fetch(`/api/v1/questions/votes/vote`, {
         method: "PATCH",
-        body: JSON.stringify({ id, type, voteType }),
+        body: JSON.stringify({id, type, voteType}),
       });
-      return response;
     } catch (error) {
       // Revert optimistic update on error
-      return false;
     }
+
+    return false;
   };
 
   const createAnswer = async (qIdentifier: string, content: string) => {
     try {
-      const response = await $fetch(`/api/v1/questions/answers/create`, {
+      return await $fetch(`/api/v1/questions/answers/create`, {
         method: "POST",
         body: JSON.stringify({
           content,
@@ -62,8 +60,9 @@ const useQuestion = () => {
           schoolId: schoolId.value?.schulnummer,
         }),
       });
-      return response;
-    } 
+    } catch(error) {
+        return false;
+    }
   };
 
   return {
