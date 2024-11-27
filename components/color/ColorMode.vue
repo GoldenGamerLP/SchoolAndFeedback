@@ -4,37 +4,29 @@ let mode = colorMode.value;
 
 const toggleColorMode = () => {
   //When light => dark
-  //When dark => system
-  //When system => light
+  //When dark => light
   if (mode === 'light') {
     colorMode.preference = 'dark';
     mode = 'dark';
-  } else if (mode === 'dark') {
-    colorMode.preference = 'system';
-    mode = 'system';
   } else {
     colorMode.preference = 'light';
     mode = 'light';
   }
+
 }
 </script>
 
 <template>
-  <Button @click="toggleColorMode" variant="outline" class="w-full overflow-hidden">
+  <Button @click="toggleColorMode" variant="ghost" class="w-full overflow-hidden" @click.stop.prevent>
     <Transition name="fade">
       <template v-if="colorMode.value === 'light'">
         <span>
           <Icon name="mdi:moon-waning-crescent" /> Wechsel zu Dunkler Modus
         </span>
       </template>
-      <template v-else-if="colorMode.value === 'dark'">
-        <span>
-          <Icon name="mdi:weather-sunny" /> Wechsel zu Heller Modus
-        </span>
-      </template>
       <template v-else>
         <span>
-          <Icon name="mdi:weather-night" /> Wechsel zu System Modus
+          <Icon name="mdi:weather-sunny" /> Wechsel zu Heller Modus
         </span>
       </template>
     </Transition>
@@ -42,21 +34,34 @@ const toggleColorMode = () => {
 </template>
 
 <style scoped>
-.fade-enter-active,
+/* Element leaving - slides right and fades */
 .fade-leave-active {
-  transition: opacity 0.75s, transform 0.75s;
+  transition: all 0.35s ease-out;
+  position: absolute;
 }
 
-/* Translate x full in and out */
-.fade-enter-from,
+.fade-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .fade-leave-to {
   opacity: 0;
   transform: translateX(100%);
 }
 
-.fade-enter-to,
-.fade-leave-from {
+/* Element entering - slides from left */
+.fade-enter-active {
+  transition: all 0.35s ease-out;
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.fade-enter-to {
   opacity: 1;
-  transform: translateX(-50%);
+  transform: translateX(0);
 }
 </style>

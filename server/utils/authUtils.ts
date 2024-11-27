@@ -4,7 +4,7 @@ import { MongodbAdapter } from "@lucia-auth/adapter-mongodb";
 import { Collection } from "mongodb";
 import database from "~/server/utils/mongodbUtils";
 
-const users = database.collection("users") as Collection<UserDoc>;
+export const users = database.collection("users") as Collection<UserDoc>;
 const sessions = database.collection("sessions") as Collection<SessionDoc>;
 
 const astro = new LegacyScrypt();

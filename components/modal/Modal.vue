@@ -1,5 +1,5 @@
 <template>
-    <Transition name="slideright">
+    <Transition name="scaleeffect">
         <main
             class="h-screen z-50 fixed top-0 bg-body inset-0 p-2 transition-all will-change-transform duration-700"
             v-if="!!props">
@@ -24,15 +24,17 @@ const close = () => {
 </script>
 
 <style scoped>
-.slideright-enter-from,
-.slideright-leave-to {
-    transform: translateX(-120%);
-    opacity: 0.9;
+.scaleeffect-enter-active, .scaleeffect-leave-active {
+    transition: transform 0.5s, opacity 0.5s;
 }
 
-.slideright-enter-to,
-.slideright-leave-from {
-    transform: translateX(0);
+.scaleeffect-enter, .scaleeffect-leave-to, .fade-leave-active {
+    transform: scale(0.8), translateY(50%);
+    opacity: 0;
+}
+
+.scaleeffect-enter-to, .scaleeffect-leave {
+    transform: scale(1), translateY(0);
     opacity: 1;
 }
 </style>
