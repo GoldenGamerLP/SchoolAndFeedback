@@ -9,6 +9,7 @@ import {
   QuestionAnswerEndriched,
   QuestionEnriched,
 } from "~/types/questions";
+import auth from "../middleware/auth";
 
 const questionsCollection = database.collection<Question>("questions");
 const answersCollection = database.collection<QuestionAnswer>("answers");
@@ -439,6 +440,7 @@ export async function getConversation(
                     downVotesCount: 1,
                     answerId: 1,
                     author: {$arrayElemAt: ["$author.displayname", 0]},
+                    authorId: {$arrayElemAt: ["$author._id", 0]},
                 },
             },
         ])

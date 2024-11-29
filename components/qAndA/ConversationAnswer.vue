@@ -48,13 +48,14 @@
 import { type QuestionAnswerEndriched } from '~/types/questions';
 import { useTimeAgo } from '@vueuse/core';
 
-const user = useUser();
 const emits = defineEmits(['vote']);
+const user = useUser();
 
 const props = defineProps<{
     conversation: QuestionAnswerEndriched;
     isVoting: boolean;
+    questionAuthorId: string;
 }>();
 
-const isAuthor = computed(() => user.value?.id === props.conversation.authorId);
+const isAuthor = computed(() => props.conversation.authorId === props.questionAuthorId);
 </script>

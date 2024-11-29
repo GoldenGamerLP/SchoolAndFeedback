@@ -18,7 +18,7 @@
             </p>
             <div class="flex">
                 <button
-                    class="rounded-xl text-green-400 bg-green-500/10 border-2 border-green-600 flex items-center gap-2 p-2 text-sm mt-4"
+                    class="rounded-xl text-green-400 bg-green-500/10 border-2 border-green-600 flex items-center gap-2 py-1 px-2 text-sm mt-4"
                     v-if="conversation.answerId" @click="emits('goToAnswer', conversation.answerId)">
                     <Icon name="mdi:check-all"></Icon>
                     Gehe zu markierte Antwort

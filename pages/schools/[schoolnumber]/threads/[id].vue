@@ -37,7 +37,7 @@
         </li>
         <li v-for="answer in conversation?.answers" :id="'answer-' + answer.aIdentifier"
             :key="answer.aIdentifier">
-          <ConversationAnswer :conversation="answer" :isVoting="isVoting" @vote="handleVote"/>
+          <ConversationAnswer :conversation="answer" :isVoting="isVoting" :question-author-id="conversation.question.authorId" @vote="handleVote"/>
         </li>
       </ol>
       <Separator v-if="conversation.answers.length" class="mt-4" orientation="horizontal"></Separator>

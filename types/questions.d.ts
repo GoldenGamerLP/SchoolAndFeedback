@@ -42,6 +42,7 @@ export interface QuestionEnriched extends Question {
   upVotesCount: number;
   downVotesCount: number;
   conversationsCount: number;
+  authorId: string;
 }
 
 export interface QuestionAnswerEndriched extends QuestionAnswer {
