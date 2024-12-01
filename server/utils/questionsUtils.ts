@@ -1,15 +1,15 @@
 import {generateId} from "lucia";
 import database from "~/server/utils/mongodbUtils";
 import {
-  Conversation,
-  CreateAnswerDto,
-  CreateQuestionDto,
-  Question,
-  QuestionAnswer,
-  QuestionAnswerEndriched,
-  QuestionEnriched,
+    Conversation,
+    CreateAnswerDto,
+    CreateQuestionDto,
+    Question,
+    QuestionAnswer,
+    QuestionAnswerEndriched,
+    QuestionEnriched,
 } from "~/types/questions";
-import auth from "../middleware/auth";
+
 
 const questionsCollection = database.collection<Question>("questions");
 const answersCollection = database.collection<QuestionAnswer>("answers");
@@ -104,11 +104,9 @@ export async function getQuestions(
 
     //FixMe: Use aggregation pipeline to count answers
     for (let i = 0; i < questions.length; i++) {
-        const answers = await answersCollection.countDocuments({
+        questions[i].conversationsCount = await answersCollection.countDocuments({
             questionId: questions[i].qIdentifier,
         });
-
-        questions[i].conversationsCount = answers;
     }
 
     return questions as QuestionEnriched[];
