@@ -95,6 +95,7 @@ export async function getQuestions(
                     hasDownvoted: 1,
                     upVotesCount: 1,
                     downVotesCount: 1,
+                    answerId: 1,
                     author: {$arrayElemAt: ["$author.displayname", 0]},
                 },
             },

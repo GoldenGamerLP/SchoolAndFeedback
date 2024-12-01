@@ -9,7 +9,7 @@
                     </AvatarFallback>
                 </Avatar>
                 <p class="text-pretty text-secondary-foreground">{{ conversation.author }}</p>
-                <p v-if="isAuthor" class="text-xs">Author</p>
+                <p v-if="isConversationAuthor" class="text-xs">Author</p>
             </div>
             <div class="flex-1">
                 <p>Geantwortet vor {{ useTimeAgo(conversation.createdAt) }}</p>
@@ -57,5 +57,7 @@ const props = defineProps<{
     questionAuthorId: string;
 }>();
 
-const isAuthor = computed(() => props.conversation.authorId === props.questionAuthorId);
+const isAuthor = computed(() => user.value?.id === props.questionAuthorId);
+
+const isConversationAuthor = computed(() => props.questionAuthorId === props.conversation.authorId);
 </script>

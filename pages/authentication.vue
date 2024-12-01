@@ -1,8 +1,8 @@
 <template>
   <main class="min-h-screen w-full flex justify-center items-center flex-col">
     <div class="max-w-sm">
-      <Icon name="lucide:list-plus" class="animate-bounce" size="50" />
-      <h1 class="text-4xl font-semibold text-primary my-2">KeepList</h1>
+      <Icon name="mdi:school" class="animate-bounce" size="50" />
+      <h1 class="text-4xl font-semibold text-primary my-2">School and Feedback</h1>
       <Tabs default-value="register" class="max-w-sm">
         <TabsList class="grid w-full grid-cols-2">
           <TabsTrigger value="register">
@@ -132,6 +132,7 @@ const loginSubmit = async (values: Record<string, any>) => {
 };
 
 const goToAccount = () => {
-  useRouter().push('/myaccount');
+  const forwardQuery = useRoute().query.forward ?? '/';
+  useRouter().push(forwardQuery as string);
 };
 </script>

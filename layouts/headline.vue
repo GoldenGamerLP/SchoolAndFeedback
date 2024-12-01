@@ -45,7 +45,7 @@
 								</NuxtLink>
 							</li>
 							<li v-else>
-								<NuxtLink :to="`/authentication`">
+								<NuxtLink :to="{name: 'authentication', query: {'forward': `${useRoute().path}`}}">
 									<Button variant="ghost" class="w-full">
 										<Icon name="mdi:login" class="size-7"></Icon>
 										Logge dich ein

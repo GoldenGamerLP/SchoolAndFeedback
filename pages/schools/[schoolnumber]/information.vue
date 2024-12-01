@@ -1,5 +1,5 @@
 <template>
-     <div class="min-h-svh bg-card text-card-foreground p-4 flex-1 rounded-t-xl border-t">
+     <div class="bg-card text-card-foreground p-4 flex-1 rounded-t-xl border-t">
         <header class="flex gap-4">
             <NuxtLink :to="`/schools/${school.schulnummer}`">
                 <Button size="icon" variant="secondary">
