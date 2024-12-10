@@ -56,6 +56,12 @@ import EnterAnswer from "~/components/qAndA/EnterAnswer.vue";
 const id = useRoute().params.id as string;
 const questionComp = useQuestion();
 
+const {data: conversation, error} = await useFetch("/api/v1/questions/conversation", {
+  query: {
+    id
+  }
+});
+
 definePageMeta({
   description: 'Alle Fragen und Antworten',
   layout: 'headline',
@@ -68,7 +74,19 @@ definePageMeta({
 useSeoMeta({
   titleTemplate: 'Fragen - %s',
   title() {
-    return id ? id as string : 'Alle Fragen';
+    return id ? conversation.value?.question.title as string : 'Alle Fragen';
+  },
+  description() {
+      return conversation?.value?.question.title;
+  },
+  ogTitle() {
+    return conversation?.value?.question.title;
+  },
+  ogDescription() {
+    return conversation?.value?.question.title;
+  },
+  author() {
+    return conversation?.value?.question.author;
   },
 });
 
@@ -183,10 +201,4 @@ const goToAnswer = () => {
     answer.scrollIntoView({behavior: 'smooth'});
   }
 }
-
-const {data: conversation, error} = await useFetch("/api/v1/questions/conversation", {
-  query: {
-    id
-  }
-});
 </script>

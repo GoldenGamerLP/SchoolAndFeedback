@@ -12,6 +12,7 @@
           <Icon name="mdi:tag" class="mr-2"></Icon>
           <ol class="flex space-x-2">
             <li v-for="tag in props.question.tags" :key="tag">{{ tag }}</li>
+            <li v-if="!props.question.tags.length" class="text-muted-foreground">Keine Tags</li>
           </ol>
         </CardDescription>
       </CardHeader>
