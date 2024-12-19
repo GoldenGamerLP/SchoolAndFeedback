@@ -1,9 +1,16 @@
-<script setup lang="ts">
-import { cn } from '@/lib/utils'
-import { useEventListener, useVModel } from '@vueuse/core'
-import { TooltipProvider } from 'radix-vue'
-import { computed, type HTMLAttributes, type Ref, ref } from 'vue'
-import { provideSidebarContext, SIDEBAR_COOKIE_MAX_AGE, SIDEBAR_COOKIE_NAME, SIDEBAR_KEYBOARD_SHORTCUT, SIDEBAR_WIDTH, SIDEBAR_WIDTH_ICON } from './utils'
+<script lang="ts" setup>
+import {cn} from '@/lib/utils'
+import {useEventListener, useVModel} from '@vueuse/core'
+import {TooltipProvider} from 'radix-vue'
+import {computed, type HTMLAttributes, type Ref, ref} from 'vue'
+import {
+  provideSidebarContext,
+  SIDEBAR_COOKIE_MAX_AGE,
+  SIDEBAR_COOKIE_NAME,
+  SIDEBAR_KEYBOARD_SHORTCUT,
+  SIDEBAR_WIDTH,
+  SIDEBAR_WIDTH_ICON
+} from './utils'
 
 const props = withDefaults(defineProps<{
   defaultOpen?: boolean
@@ -67,13 +74,13 @@ provideSidebarContext({
 <template>
   <TooltipProvider :delay-duration="0">
     <div
-      :style="{
+        :class="cn('group/sidebar-wrapper flex min-h-svh w-full text-sidebar-foreground has-[[data-variant=inset]]:bg-sidebar', props.class)"
+        :style="{
         '--sidebar-width': SIDEBAR_WIDTH,
         '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
       }"
-      :class="cn('group/sidebar-wrapper flex min-h-svh w-full text-sidebar-foreground has-[[data-variant=inset]]:bg-sidebar', props.class)"
     >
-      <slot />
+      <slot/>
     </div>
   </TooltipProvider>
 </template>

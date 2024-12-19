@@ -1,5 +1,5 @@
 <template>
-    <main class="flex-1 bg-card text-card-foreground p-4 h-full rounded-t-xl border-t flex flex-col">
+    <main class="flex-1 text-card-foreground p-4 h-full rounded-t-xl border-t flex flex-col bg-card/50">
         <!-- Tabs container with explicit height -->
         <Tabs :default-value="'relevance'" class="flex flex-col h-full" @update:model-value="setTabValue">
             <TabsList>

@@ -1,13 +1,19 @@
-<script setup lang="ts" generic="T extends ZodObjectOrWrapped">
-import type { FormContext, GenericObject } from 'vee-validate'
-import type { z, ZodAny } from 'zod'
-import type { Config, ConfigItem, Dependency, Shape } from './interface'
-import { Form } from '@/components/ui/form'
-import { toTypedSchema } from '@vee-validate/zod'
-import { computed, toRefs } from 'vue'
+<script generic="T extends ZodObjectOrWrapped" lang="ts" setup>
+import type {FormContext, GenericObject} from 'vee-validate'
+import type {z, ZodAny} from 'zod'
+import type {Config, ConfigItem, Dependency, Shape} from './interface'
+import {Form} from '@/components/ui/form'
+import {toTypedSchema} from '@vee-validate/zod'
+import {computed, toRefs} from 'vue'
 import AutoFormField from './AutoFormField.vue'
-import { provideDependencies } from './dependencies'
-import { getBaseSchema, getBaseType, getDefaultValueInZodStack, getObjectFormSchema, type ZodObjectOrWrapped } from './utils'
+import {provideDependencies} from './dependencies'
+import {
+  getBaseSchema,
+  getBaseType,
+  getDefaultValueInZodStack,
+  getObjectFormSchema,
+  type ZodObjectOrWrapped
+} from './utils'
 
 const props = defineProps<{
   schema: T
@@ -20,7 +26,7 @@ const emits = defineEmits<{
   submit: [event: z.infer<T>]
 }>()
 
-const { dependencies } = toRefs(props)
+const {dependencies} = toRefs(props)
 provideDependencies(dependencies)
 
 const shapes = computed(() => {
@@ -65,41 +71,40 @@ const formComponentProps = computed(() => {
   if (props.form) {
     return {
       onSubmit: props.form.handleSubmit(val => emits('submit', val)),
-    };
-  }
-  else {
+    }
+  } else {
     const formSchema = toTypedSchema(props.schema)
     return {
       keepValues: true,
       validationSchema: formSchema,
       onSubmit: (val: GenericObject) => emits('submit', val),
-    };
+    }
   }
 })
 </script>
 
 <template>
   <component
-    :is="formComponent"
-    v-bind="formComponentProps"
+      :is="formComponent"
+      v-bind="formComponentProps"
   >
-    <slot name="customAutoForm" :fields="fields">
+    <slot :fields="fields" name="customAutoForm">
       <template v-for="(shape, key) of shapes" :key="key">
         <slot
-          :shape="shape"
-          :name="key.toString() as keyof z.infer<T>"
-          :field-name="key.toString()"
-          :config="fieldConfig?.[key as keyof typeof fieldConfig] as ConfigItem"
-        >
-          <AutoFormField
             :config="fieldConfig?.[key as keyof typeof fieldConfig] as ConfigItem"
             :field-name="key.toString()"
+            :name="key.toString() as keyof z.infer<T>"
             :shape="shape"
+        >
+          <AutoFormField
+              :config="fieldConfig?.[key as keyof typeof fieldConfig] as ConfigItem"
+              :field-name="key.toString()"
+              :shape="shape"
           />
         </slot>
       </template>
     </slot>
 
-    <slot :shapes="shapes" />
+    <slot :shapes="shapes"/>
   </component>
 </template>

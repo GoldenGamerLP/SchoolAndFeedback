@@ -14,7 +14,7 @@
     </AutoForm>
   </div>
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 import type {Conversation, QuestionAnswerEndriched} from "~/types/questions";
 import useQuestion from "~/composables/question";
 import * as z from "zod";

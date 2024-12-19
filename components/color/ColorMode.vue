@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 const colorMode = useColorMode()
 let mode = colorMode.value;
 
@@ -17,16 +17,16 @@ const toggleColorMode = () => {
 </script>
 
 <template>
-  <Button @click="toggleColorMode" variant="ghost" class="w-full overflow-hidden" @click.stop.prevent>
+  <Button class="w-full overflow-hidden" variant="ghost" @click="toggleColorMode" @click.stop.prevent>
     <Transition name="fade">
       <template v-if="colorMode.value === 'light'">
         <span>
-          <Icon name="mdi:moon-waning-crescent" /> Wechsel zu Dunkler Modus
+          <Icon name="mdi:moon-waning-crescent"/> Wechsel zu Dunkler Modus
         </span>
       </template>
       <template v-else>
         <span>
-          <Icon name="mdi:weather-sunny" /> Wechsel zu Heller Modus
+          <Icon name="mdi:weather-sunny"/> Wechsel zu Heller Modus
         </span>
       </template>
     </Transition>

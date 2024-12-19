@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 bg-card text-card-foreground p-4 rounded-t-xl border-t">
+  <div class="flex-1 bg-card/50 text-card-foreground p-4 rounded-t-xl border-t">
     <header class="flex gap-4">
       <NuxtLink
           :to="{ name: 'schools-schoolnumber-threads', params: { schoolnumber: $route.params.schoolnumber } }">

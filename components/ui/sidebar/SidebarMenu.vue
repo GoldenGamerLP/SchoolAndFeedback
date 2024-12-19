@@ -1,6 +1,6 @@
-<script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
-import { cn } from '@/lib/utils'
+<script lang="ts" setup>
+import type {HTMLAttributes} from 'vue'
+import {cn} from '@/lib/utils'
 
 const props = defineProps<{
   class?: HTMLAttributes['class']
@@ -9,9 +9,9 @@ const props = defineProps<{
 
 <template>
   <ul
-    data-sidebar="menu"
-    :class="cn('flex w-full min-w-0 flex-col gap-1', props.class)"
+      :class="cn('flex w-full min-w-0 flex-col gap-1', props.class)"
+      data-sidebar="menu"
   >
-    <slot />
+    <slot/>
   </ul>
 </template>

@@ -11,7 +11,6 @@ export default defineNuxtConfig({
     "@nuxtjs/google-fonts",
     "@nuxt/scripts",
     "nuxt-purgecss",
-    "@nuxt/rspack-builder",
   ],
   googleFonts: {
     preload: true,
@@ -19,7 +18,7 @@ export default defineNuxtConfig({
       Quicksand: "300..700",
     },
   },
-  builder: 'rspack',
+
   colorMode: {
     classSuffix: "",
     storage: "cookie",
@@ -27,7 +26,6 @@ export default defineNuxtConfig({
   },
   webpack: {
     analyze: true,
-    optimizeCSS: true,
   },
   app: {
     head: {

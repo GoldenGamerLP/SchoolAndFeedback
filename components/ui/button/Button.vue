@@ -1,8 +1,8 @@
-<script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
-import { Primitive, type PrimitiveProps } from 'radix-vue'
-import { type ButtonVariants, buttonVariants } from '.'
-import { cn } from '@/lib/utils'
+<script lang="ts" setup>
+import type {HTMLAttributes} from 'vue'
+import {Primitive, type PrimitiveProps} from 'radix-vue'
+import {type ButtonVariants, buttonVariants} from '.'
+import {cn} from '@/lib/utils'
 
 interface Props extends PrimitiveProps {
   variant?: ButtonVariants['variant']
@@ -18,10 +18,11 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <Primitive :as="as" :as-child="asChild" :class="cn(buttonVariants({ variant, size }), props.class, 'relative')" :disabled="loading" :aria-busy="loading">
-    <div class="absolute inset-0 bg-primary animation-sweep overflow-clip" v-if="shiny" />
-    <slot v-if="!loading" />
-    <Icon v-if="loading" name="mdi:loading" class="animate-spin mr-2" />
+  <Primitive :aria-busy="loading" :as="as" :as-child="asChild"
+             :class="cn(buttonVariants({ variant, size }), props.class, 'relative')" :disabled="loading">
+    <div v-if="shiny" class="absolute inset-0 bg-primary animation-sweep overflow-clip"/>
+    <slot v-if="!loading"/>
+    <Icon v-if="loading" class="animate-spin mr-2" name="mdi:loading"/>
     <span v-if="loading">Eine Sekunde bitte...</span>
   </Primitive>
 </template>

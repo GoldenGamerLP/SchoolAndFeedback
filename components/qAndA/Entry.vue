@@ -9,7 +9,7 @@
           </NuxtLink>
         </CardTitle>
         <CardDescription class="flex items-center">
-          <Icon name="mdi:tag" class="mr-2"></Icon>
+          <Icon class="mr-2" name="mdi:tag"></Icon>
           <ol class="flex space-x-2">
             <li v-for="tag in props.question.tags" :key="tag">{{ tag }}</li>
             <li v-if="!props.question.tags.length" class="text-muted-foreground">Keine Tags</li>
@@ -32,15 +32,15 @@
           </span>
       </CardContent>
       <CardFooter>
-        <ol class="flex gap-2 text-muted-foreground">
-          <li class="flex items-center gap-2" :class="{ 'text-green-400': props.question.hasUpvoted }">
+        <ol class="flex gap-2 text-muted-foreground flex-wrap">
+          <li :class="{ 'text-green-400': props.question.hasUpvoted }" class="flex items-center gap-2">
             <Icon name="mdi:thumb-up"></Icon>
             {{ props.question.upVotesCount }}
           </li>
           <li class="flex items-center">
             <Icon name="mdi:dot"></Icon>
           </li>
-          <li class="flex items-center gap-2" :class="{ 'text-red-400': props.question.hasDownvoted }">
+          <li :class="{ 'text-red-400': props.question.hasDownvoted }" class="flex items-center gap-2">
             <Icon name="mdi:thumb-down"></Icon>
             {{ props.question.downVotesCount }}
           </li>
@@ -56,8 +56,9 @@
               <Icon name="mdi:dot"></Icon>
             </li>
             <li class="flex items-center gap-2">
-              <NuxtLink :to="{name: 'schools-schoolnumber-threads-id', params: {schoolnumber: schoolId, id: props.question.qIdentifier}, hash: `#answer-${props.question.answerId}`}">
-                <Icon name="mdi:check-all" class="text-green-400"></Icon>
+              <NuxtLink
+                  :to="{name: 'schools-schoolnumber-threads-id', params: {schoolnumber: schoolId, id: props.question.qIdentifier}, hash: `#answer-${props.question.answerId}`}">
+                <Icon class="text-green-400" name="mdi:check-all"></Icon>
                 Beantwortet (Klick um zur Antwort zu springen)
               </NuxtLink>
             </li>
@@ -68,7 +69,7 @@
   </li>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import useQuestion from '~/composables/question';
 import {type QuestionEnriched} from '~/types/questions';
 import {useDateFormat} from "@vueuse/core";

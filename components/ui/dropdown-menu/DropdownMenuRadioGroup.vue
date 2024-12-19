@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
   DropdownMenuRadioGroup,
   type DropdownMenuRadioGroupEmits,
@@ -14,6 +14,6 @@ const forwarded = useForwardPropsEmits(props, emits)
 
 <template>
   <DropdownMenuRadioGroup v-bind="forwarded">
-    <slot />
+    <slot/>
   </DropdownMenuRadioGroup>
 </template>

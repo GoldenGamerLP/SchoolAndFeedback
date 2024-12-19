@@ -52,18 +52,28 @@
 									</Button>
 								</NuxtLink>
 							</li>
+              <li v-if="user">
+                <Button variant="ghost" class="w-full" @click="manageModerators?.open()">
+                  <Icon name="mdi:account-plus" class="size-6"></Icon>
+                  Moderator vorschlagen
+                </Button>
+              </li>
 						</ol>
 					</PopoverContent>
 				</Popover>
 			</div>
-		</nav>
+    </nav>
 		<slot />
-	</div>
+    <LazyModalsModeratorsModal ref="manageModerators" />
+  </div>
 </template>
 
 <script lang="ts" setup>
+import type ModeratorsModal from "~/components/modals/ModeratorsModal.vue";
+
 const school = useCurrentSchool();
 const user = useUser();
+const manageModerators = ref<InstanceType<typeof ModeratorsModal>>();
 </script>
 
 <style scoped>

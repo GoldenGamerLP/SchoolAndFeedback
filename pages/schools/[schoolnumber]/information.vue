@@ -1,5 +1,5 @@
 <template>
-     <div class="bg-card text-card-foreground p-4 flex-1 rounded-t-xl border-t">
+     <div class="bg-card/50 text-card-foreground p-4 flex-1 rounded-t-xl border-t">
         <header class="flex gap-4">
             <NuxtLink :to="`/schools/${school.schulnummer}`">
                 <Button size="icon" variant="secondary">
@@ -16,11 +16,14 @@
             </div>
         </header>
         <main class="grid md:grid-cols-2 gap-4 mt-4">
-            <div v-for="information in Object.keys(school).filter(key => key !== '_id')" :key="information"
-                class="bg-muted rounded-lg p-4">
-                <h2 class="text-lg font-bold leading-tight capitalize">{{ information }}</h2>
+            <Card v-for="information in Object.keys(school).filter(key => key !== '_id')" :key="information">
+                <CardHeader>
+                    <CardTitle class="capitalize">{{ information }}</CardTitle>
+                </CardHeader>
+              <CardContent>
                 <p>{{ school[information] }}</p>
-            </div>
+              </CardContent>
+            </Card>
         </main>
     </div>
 </template>
