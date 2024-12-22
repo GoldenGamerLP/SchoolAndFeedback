@@ -10,6 +10,7 @@ A modern web application built with Nuxt.js that provides a platform for managin
 - 📱 Responsive design
 - 🎯 Performance optimized
 - 🔍 SEO friendly with sitemap generation
+- MORE COMING SOON!
 
 ## Prerequisites
 
@@ -19,6 +20,8 @@ A modern web application built with Nuxt.js that provides a platform for managin
 ## Environment Variables
 
 Create a `.env` file in the root directory with the following variables:
+1. MONGODB_URI=mongodb://localhost:27017
+2. MONGODB_DATABASE=schoolandfeedback
 
 ## Getting Started
 
