@@ -11,12 +11,12 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    const { schoolId, mail } = data;
+    const { schoolId, userId } = data;
 
-    return await acceptModeratorRequest(schoolId, mail);
+    return await acceptModeratorRequest(schoolId, userId);
 });
 
 const validateAcceptRequestQuery = z.object({
     schoolId: z.coerce.number().int().positive(),
-    mail: z.string().email(),
+    userId: z.string(),
 });

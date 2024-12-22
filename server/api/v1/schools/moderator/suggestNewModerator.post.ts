@@ -15,13 +15,13 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    const { schoolId, email, message } = data;
+    const { schoolId, userId, message } = data;
 
-    return await addNewSuggestedModerator({schoolId, email, message});
+    return await addNewSuggestedModerator({schoolId, userId, message});
 });
 
 export const validateSuggestNewModeratorQuery = z.object({
     schoolId: z.coerce.number().int().positive(),
-    email: z.string(),
+    userId: z.string(),
     message: z.string(),
 });

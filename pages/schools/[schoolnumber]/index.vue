@@ -1,12 +1,18 @@
 <template>
   <main class="bg-card/50 text-card-foreground p-4 rounded-t-xl border-t flex flex-col flex-1">
     <template v-if="isSchoolEnabled">
-      <h2 class="text-2xl font-bold mb-4 ml-2">
+      <h2 class="text-2xl font-bold ml-2">
         <Icon name="mdi:book-open-variant" class="mr-2"></Icon>
         Freigeschaltete Module
       </h2>
-      <ol class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <li v-for="module in options.options.enabledModules" :key="module.route">
+      <p class="text-muted-foreground ml-2">Hier siehst du alle freigeschalteten Module von der Schule - <span
+          class="text-primary">{{ school.schulname }}</span></p>
+      <p v-if="!options || options.length === 0" class="text-muted-foreground ml-2 mt-2 font-semibold flex items-center">
+        <Icon name="mdi:alert-circle" class="mr-2"></Icon>
+        Es wurden noch keine Module freigeschaltet.
+      </p>
+      <ol class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
+        <li v-for="module in options" :key="module.route">
           <NuxtLink :to="`/schools/${school.schulnummer}/${module.route}`">
             <Card>
               <CardHeader>
@@ -26,7 +32,8 @@
             <Icon name="mdi:account-question" class="mr-2 size-8"></Icon>
             Nicht freigeschaltet!
           </h2>
-          <p class="max-w-sm my-2">Die Schule ist noch nicht freigeschaltet. Sie benötigt noch einen Moderator. Um sie freizuschalten, befolge folgende Schritte:</p>
+          <p class="max-w-sm my-2">Die Schule ist noch nicht freigeschaltet. Sie benötigt noch einen Moderator. Um sie
+            freizuschalten, befolge folgende Schritte:</p>
           <ol class="list-decimal list-inside ml-4 marker:text-primary marker:text-lg space-y-2">
             <li>
               Registriere deine Email-Adresse.
@@ -42,10 +49,11 @@
             <Icon name="mdi:account-plus" class="mr-2 size-6"></Icon>
             Moderator vorschlagen
           </h2>
-          <p class="my-2 font-semibold">Derzeitiger account: <span class="font-normal">{{ user?.displayname ?? "Nicht angemeldet!" }}</span></p>
-          <AutoForm :schema="schema" :field-config="{message: { component: 'textarea'}}" @submit="submitNewModerator">
+          <p class="my-2 font-semibold">Derzeitiger account: <span class="font-normal">{{ user?.displayname ?? "Nicht angemeldet" }}</span></p>
+          <AutoForm :schema="schema" :field-config="{ message: { component: 'textarea' } }"
+            @submit="submitNewModerator">
             <Button type="submit" class="mt-4" :disabled="hasSubmitted || !user">
-              {{ hasSubmitted ? 'Gesendet' : 'Absenden'}}
+              {{ hasSubmitted ? 'Gesendet' : 'Absenden' }}
               <Icon name="mdi:send" class="mr-2"></Icon>
             </Button>
           </AutoForm>
@@ -81,7 +89,7 @@ const submitNewModerator = async (values) => {
       method: "POST",
       body: JSON.stringify({
         ...values,
-        email: user.value.mail,
+        userId: user.value.id,
         schoolId: school.value.schulnummer,
       }),
     });
@@ -90,12 +98,12 @@ const submitNewModerator = async (values) => {
   }
 };
 
-const {data: options} = await useFetch("/api/v1/schools/options", {
-  query: {schoolnumber: school.value.schulnummer},
+const { data: options } = await useFetch("/api/v1/schools/modules/get", {
+  query: { schoolId: school.value.schulnummer },
 });
 
-const {data: isSchoolEnabled} = await useFetch("/api/v1/schools/schoolIsEnabled", {
-  query: {schoolnumber: school.value.schulnummer},
+const { data: isSchoolEnabled } = await useFetch("/api/v1/schools/schoolIsEnabled", {
+  query: { schoolId: school.value.schulnummer },
 });
 
 const schema = z.object({

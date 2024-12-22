@@ -45,35 +45,56 @@
 								</NuxtLink>
 							</li>
 							<li v-else>
-								<NuxtLink :to="{name: 'authentication', query: {'forward': `${useRoute().path}`}}">
+								<NuxtLink :to="{ name: 'authentication', query: { 'forward': `${useRoute().path}` } }">
 									<Button variant="ghost" class="w-full">
 										<Icon name="mdi:login" class="size-7"></Icon>
 										Logge dich ein
 									</Button>
 								</NuxtLink>
 							</li>
-              <li v-if="user">
-                <Button variant="ghost" class="w-full" @click="manageModerators?.open()">
-                  <Icon name="mdi:account-plus" class="size-6"></Icon>
-                  Moderator vorschlagen
-                </Button>
-              </li>
+							<li v-if="user && isModerator">
+								<Button variant="ghost" class="w-full" @click="manageModerators?.open()">
+									<Icon name="mdi:account-plus" class="size-6"></Icon>
+									Moderator verwalten
+								</Button>
+							</li>
+							<li v-if="user && !isModerator">
+								<Button variant="ghost" class="w-full" @click="applyAsModerator?.open()">
+									<Icon name="mdi:bag-checked" class="size-6"></Icon>
+									Als Moderator Bewerben
+								</Button>
+							</li>
+							<li>
+								<NuxtLink external to="https://github.com/GoldenGamerLP/schoolandfeedback" class="w-full">
+									<Button variant="ghost" class="w-full">
+										<Icon name="mdi:github" class="size-6"></Icon>
+										Quellcode
+									</Button>
+								</NuxtLink>
+							</li>
 						</ol>
 					</PopoverContent>
 				</Popover>
 			</div>
-    </nav>
+		</nav>
 		<slot />
-    <LazyModalsModeratorsModal ref="manageModerators" />
-  </div>
+		<MtModal ref="manageModerators" />
+		<LazyModalsApplyAsModerator ref="applyAsModerator" />
+	</div>
 </template>
 
 <script lang="ts" setup>
-import type ModeratorsModal from "~/components/modals/ModeratorsModal.vue";
+import { ModalsApplyAsModerator } from '#build/components';
 
+const MtModal = defineAsyncComponent(() => import('@/components/modals/ModeratorsModalWrapper.vue'));
+const applyAsModerator = ref<InstanceType<typeof ModalsApplyAsModerator>>();
 const school = useCurrentSchool();
 const user = useUser();
-const manageModerators = ref<InstanceType<typeof ModeratorsModal>>();
+const manageModerators = ref<InstanceType<typeof MtModal>>();
+
+const { data: isModerator } = useFetch("/api/v1/schools/moderator/isModerator", {
+	query: { schoolId: school.value?.schulnummer, userId: user.value?.id || "" },
+});
 </script>
 
 <style scoped>

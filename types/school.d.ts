@@ -26,12 +26,15 @@ export interface SchoolModule {
 
 export interface SuggestedModerator {
     schoolId: number;
-    email: string;
+    userId: string;
     message: string;
+
 }
 
 export interface ModeratorEntry {
     school: School;
-    email: string;
+    userId: string;
     message: string;
+    displayname: string;
+    email: string;
 }

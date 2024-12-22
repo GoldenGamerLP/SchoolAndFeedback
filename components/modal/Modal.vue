@@ -2,8 +2,8 @@
   <Transition name="scaleeffect">
     <main
         v-if="!!props"
-        class="h-screen z-50 fixed top-0 bg-body inset-0 p-2 transition-all will-change-transform duration-700">
-      <div class="flex items-center">
+        class="h-screen z-50 fixed top-0 bg-body inset-0 p-2 transition-all will-change-transform duration-700 overflow-auto">
+      <div class="flex items-center top-0 sticky shadow backdrop-blur-lg bg-body/10">
         <Button aria-label="close" size="icon" variant="ghost" @click="close">
           <Icon class=" size-5" name="mdi:arrow-left"/>
         </Button>

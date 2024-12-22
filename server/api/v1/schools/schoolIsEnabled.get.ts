@@ -14,11 +14,11 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    const schoolId = data.schoolnumber;
+    const schoolId = data.schoolId;
 
     return await isSchoolEnabled(schoolId);
 });
 
 export const validateSchoolIsEnabledQuery = z.object({
-    schoolnumber: z.coerce.number().int().positive(),
+    schoolId: z.coerce.number().int().positive(),
 });
